@@ -1,6 +1,5 @@
 # Module 2: Introduction to the Command Line
 
-## Overview
 The **command-line** is an _interface_ to a computer---a way for you (the human) to communicate with the machine. But unlike common graphical interfaces that use <a href="https://en.wikipedia.org/wiki/WIMP_(computing)">windows, icons, menus, and pointers</a>, the command-line is _text-based_: you type commands instead of clicking on icons. The command-line lets you do everything you'd normally do by clicking with a mouse, but by typing in a manner similar to programming!
 
 ![example command-line (from Wikipedia)](img/cli-wikipedia.png)
@@ -68,7 +67,7 @@ At the very top (or bottom, depending on your point of view) we have the **root*
 ### Changing Directories
 What if we want to change folders? In a graphical system like Finder, we would just double-click on the folder to open it. But there's no clicking on the command-line.
 
-- This includes clicking to move the cursor to an earlier part of the command you typed. You'll need to use the left and right arrow keys to move the cursor instead. 
+- This includes clicking to move the cursor to an earlier part of the command you typed. You'll need to use the left and right arrow keys to move the cursor instead.
 - **Protip:** The up and down arrow keys will let you cycle though your previous commands so you don't need to re-type them!
 
 Since we can't click on a folder, we'll need to use another command:
@@ -95,7 +94,7 @@ ls [folder_name]
 
 This command says to **l**i**s**t the folder contents. Note that I've put the _argument_ here in brackets (`[]`) to indicate that it is _optional_. If you just issue the **`ls`** command, it will list the contents of the current folder. If you include the optional argument (leaving off the brackets), you can "peek" at the contents of a folder you are not currently in.
 
-- ___Warning___: The command-line can be not great about giving **feedback** for your actions. For example, if there are no files in the folder, then `ls` will simply show nothing, potentially looking like it "didn't work". Or when typing a **password**, the letters you type won't show (not even as `*`) as a security measure. 
+- ___Warning___: The command-line can be not great about giving **feedback** for your actions. For example, if there are no files in the folder, then `ls` will simply show nothing, potentially looking like it "didn't work". Or when typing a **password**, the letters you type won't show (not even as `*`) as a security measure.
 
     Just because you don't see any results from your command/typing, doesn't mean it didn't work! Trust in yourself, and use basic commands like `ls` and `pwd` to confirm any changes if you're unsure. Take it slow, one step at a time.
 
@@ -175,7 +174,7 @@ Will show the **man**ual for the **`mkdir`** program/command.
 
 If you look under "Synopsis" you can see a summary of all the different arguments this command understands. A few notes about reading this syntax:
 
-- Recall that anything in brackets `[]` is optional. Arguments that are not in brackets (e.g., `directory_name`) are required. 
+- Recall that anything in brackets `[]` is optional. Arguments that are not in brackets (e.g., `directory_name`) are required.
 
 - **"Options"** (or "flags") for command-line programs are often marked with a leading dash **`-`** to make them distinct from file or folder names. Options may change the way a CLI program behaves---like how you might set "easy" or "hard" mode in a game. You can either write out each option individually, or combine them: **`mkdir -p -v`** and **`mkdir -pv`** are equivalent.
 
