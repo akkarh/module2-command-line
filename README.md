@@ -1,116 +1,209 @@
 # Module 2: Introduction to the Command Line
 
 ## Overview
-The command-line, or "terminal", is a simple text-based interface for providing instructions to your computer. Familiarizing yourself with a few pieces of simple syntax will allow you to efficiently perform a variety of tasks. In this course, we'll only scratch the surface of using the command-line, as it's primary purpose is to provide us with an interface for keeping track of our code. In this module, we'll cover elementary tasks, including navigating a file-system and managing files. Note, some commands may differ for Windows.
+The **command-line** is an _interface_ to a computer---a way for you (the human) to communicate with the machine. But unlike common graphical interfaces that use <a href="https://en.wikipedia.org/wiki/WIMP_(computing)">windows, icons, menus, and pointers</a>, the command-line is _text-based_: you type commands instead of clicking on icons. The command-line lets you do everything you'd normally do by clicking with a mouse, but by typing in a manner similar to programming!
+
+![example command-line (from Wikipedia)](img/cli-wikipedia.png)
+
+The command-line is not as friendly or intuitive as a graphical interface--it's much harder to learn and figure out. However, it has the advantage of being both more powerful and more efficient in the hands of expert users. (It's faster to type than to move a mouse, and you can do _lots_ of "clicks" with a single command). Thus all professional developers interact with the command-line, particularly when working with large amounts of data or files.
+
+This module will give you a brief introduction to basic tasks using the command-line: enough to get you comfortable navigating the interface and able to interpret commands.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Contents**
 
 - [Resources](#resources)
-- [File System Structure](#file-system-structure)
-- [Accessing the Terminal](#accessing-the-terminal)
-- [Navigating the file system](#navigating-the-file-system)
-  - [Printing your Working Directory](#printing-your-working-directory)
+- [Accessing the Command-Line](#accessing-the-command-line)
+- [Navigating the Command Line](#navigating-the-command-line)
   - [Changing Directories](#changing-directories)
-  - [File Management](#file-management)
+  - [Listing Files](#listing-files)
+  - [Paths](#paths)
+- [File Commands](#file-commands)
+  - [Learning New Commands](#learning-new-commands)
+  - [Dealing With Errors](#dealing-with-errors)
+- [Conclusion](#conclusion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Resources
-- [Codecademny Exercises](https://www.codecademy.com/en/courses/learn-the-command-line/lessons/navigation/exercises/your-first-command)
-- [Terminal Commands](http://www.lagmonster.org/docs/unix/intro-137.html)
+- [Learn Enough Command Line to be Dangerous](https://www.learnenough.com/command-line-tutorial#sec-basics)
+- [Video series: Bash commands](https://www.youtube.com/watch?v=sqYUYHn-HKg&list=PLCAF7D691FFA25555)
+- [List of Common Commands](http://www.lagmonster.org/docs/unix/intro-137.html) (also [here](http://www.math.utah.edu/lab/unix/unix-commands.html))
 
-## File System Structure
-Before exploring the syntax for navigating a file system, it's important to understand how it's organized. If you haven't considered it before, the files on your computer are organized into a hierarchical tree-like structure of folders (directories). Here is an example structure for a Mac machine:
+## Accessing the Command-Line
+In order to use the command-line, you will need to open a **command shell** (a.k.a. a _command prompt_). This is a program that provides the interface to type commands into. You should have installed a command shell (hereafter "the terminal") as part of [module 1](https://github.com/info201-w17/module1-setup).
 
-![directory structure tree diagram](imgs/directory_structure.png)
-_[source](http://korflab.ucdavis.edu/Unix_and_Perl/unix_and_perl_v3.0.html)_
+Once you open up the shell (Terminal or Git Bash), you should see something like this (red notes are mine):
 
-Given this structure, you can go further down a branch, or you can move up a level in the hierarchy. For example, to move from the `Mac` directory to the `Docs` directory, you would first have to go up to the `Volumes` directory, then into the `USB` directory, then into the `Unix...` directory in order to reach your desired set of files/folders.
+![Newly opened command-line](img/cli-blank.png)
 
-## Accessing the Terminal
-Opening your command-line will differ based on your operating system, as well as your preferred terminal program (for Windows). On a Windows machine, you should be able to access the Git Bash program from your Start Menu or Desktop icon. On a Mac, the simplest way to open up the terminal is via the Spotlight Search. First, open the Spotlight Search by holding the `command` key and hitting the `spacebar`. This should bring up the following searchbar:
+This is the textual equivalent of having opened up Finder or File Explorer and having it show you the user's "Home" folder. The text shown lets you know:
 
-![screenshot of mac spotlight search](imgs/spotlight.png)
+- what machine you're currently interfacing with (you can use the command-line to control different computers across a network or the Internet)
+- what **directory** (folder) you are currently looking at (`~` is a shorthand for the "home directory")
+- what user you are logged in as.
 
-When the Spotlight Search opens, simply begin typing `terminal`, and hit `enter` when the `terminal` icon appears.
+After that you'll see the prompt, which is where you will type in your commands.
 
-Once you've opened the terminal, you'll have a simple (yet informative) text-based interface that should look like this:
+## Navigating the Command Line
+Although the command-prompt gives us the name of the folder we're in, you might like more detail about where that folder is. Time to send your first command! At the prompt, type:
 
-![screenshot of mac terminal](imgs/blank_terminal.png)
+```bash
+pwd
+```
 
-Despite being terse, there's actually quite a bit of information in this image, including:
+This stands for **p**rint **w**orking **d**irectory (CLI commands are highly abbreviated to make them faster to type), and will tell the computer to print the folder you are currently "in".
 
-- The **machine** that is being used (this may seem silly, but you can connect to other machines and access their terminals, so this turns out to be rather important)
-- The current **directory** name (though the full path to that directory is not shown)
-- The current **user**, who will have a certain set of priviliages/abilities depending on the configuration of the machine
-- A **prompt** (i.e., the `$`), that indicates that the terminal is ready to accept text instructions
+- _Fun fact:_ technically this command starts a tiny program (app) that does exactly one thing: prints the working directory. When you run a command, you're actually executing a tiny program! And when you run programs (tiny or large) on the command-line, it looks like you're typing in commands.
 
-![screenshot of mac terminal with labels](imgs/labeled_terminal.png)
+Folders on computers are stored in a hierarchy: each folder has more folders inside it, which have more folders inside them. This produces a ["tree"](https://en.wikipedia.org/wiki/Tree_(data_structure)) structure:
 
-You should now feel comfortable with the idea of how files are organized, and be able to open your command-line. In the following section, we'll cover some introductory commands that you can begin to use.
+![Directory Tree, from Bradnam and Korf](img/dir-tree.png)
 
-## Navigating the file system
-The ability to provide instructions directly computer is quite powerful, so much so that you [delete your entire company](http://www.independent.co.uk/life-style/gadgets-and-tech/news/man-accidentally-deletes-his-entire-company-with-one-line-of-bad-code-a6984256.html) in six characters. In this section, we'll introduce some basic syntax for file management.
+We describe what folder we are in putting a slash `/` between each folder: thus `/Users/iguest` means "the `iguest` folder, which is inside the `Users` folder".
 
-### Printing your Working Directory
-First, you need to know that you're actually operating at a specific location in your file structure when you're using the terminal. This makes sense, because if we want to do something like create a file, your terminal needs to know where to put it. In order to figure out where you are in your file system, you use the `pwd` command, which stands for _print working directory_:
-
-![print working directory screenshot](imgs/pwd_ss.png)
-
-Before we ran the `pwd` command, we knew that we were in a directory called `info-201`. However, we were unaware of where that directory lived within the context of the entire system. You'll frequently find yourself typing `pwd` to check where you are, and the results of that command is for your terminal to print your current location.
+At the very top (or bottom, depending on your point of view) we have the **root** `/` directory--which has no name, and so is just indicated with that single slash. So `/Users/iguest` really means "the `iguest` folder, which is inside the `Users` folder, which is inside the root folder".
 
 ### Changing Directories
-If you want to change your directory, you use the `cd` command, which abbreviates _change directory_. While the use of the command is simple, it's important to note that you can provide **absolute** or **relative** filepaths. For example, you could change to a new directory `info-474` using the following command:
+What if we want to change folders? In a graphical system like Finder, we would just double-click on the folder to open it. But there's no clicking on the command-line.
+
+- This includes clicking to move the cursor to an earlier part of the command you typed. You'll need to use the left and right arrow keys to move the cursor instead. 
+- **Protip:** The up and down arrow keys will let you cycle though your previous commands so you don't need to re-type them!
+
+Since we can't click on a folder, we'll need to use another command:
 
 ```bash
-# Navigate from the root of the file system
-$ cd /Users/michaelfreeman/Documents/info-474
-```
-Because you start at the root of your file system with the first forward slash (`/`), you are providing the full, or absolute filepath. However, you can also navigate from your current location.
-
-```bash
-# Navigate to the Documents directory using an absolute path
-$ cd /Users/michaelfreeman/Documents
-# Navigate into the info-474 directory using a relative path
-$ cd info-474
-```
-Here are two tricks that will save you a lot of time. First, you can navigate up a directory in the hierarchy by using `..`.
-
-```bash
-# Navigate up one directory
-cd ..
+cd folder_name
 ```
 
-You can also use the `..` syntax in conjunction with other file information. For example, given a `Documents` folder with two sub-directories `info-474` and `info-201`, we could navigate from _inside_ the `info-474` directory into the `info-201` directory in a single line of code:
-```bash
-# Navigate from inside `info-474` into `info-201`
-cd ../info-201
+The first word is the **command**, or what we want the computer to do. In this case, we're issuing the command that means **c**hange **d**irectory.
+
+The second word is an example of an **argument**, which is a programming term that means "more details about what to do". In this case, we're providing a _required_ argument of what folder we want to change to! (You'll of course need to replace `folder_name` with the name of the folder).
+
+- Try changing to the `Desktop` folder, which should be inside the home folder you started in---you could see it in Finder!
+
+- After you change folders, try printing your currently location. Can you see that it has changed?
+
+
+### Listing Files
+In a graphical system, once you've double-clicked on a folder Finder will show you the contents of that folder. The command-line doesn't do this automatically, instead we need another command:
+
+```apache
+ls [folder_name]
 ```
 
-Second, you can use the tilde (`~`) as shorthand for the home directory of the current user. This will likely direct you to `/users/USERNAME`. As you would expect, you can use the tilde as part of a full filepath as follows:
+This command says to **l**i**s**t the folder contents. Note that I've put the _argument_ here in brackets (`[]`) to indicate that it is _optional_. If you just issue the **`ls`** command, it will list the contents of the current folder. If you include the optional argument (leaving off the brackets), you can "peek" at the contents of a folder you are not currently in.
 
-```bash
-# Navigate to the Documents folder inside of the home directory
-cd ~/Documents
+- ___Warning___: The command-line can be not great about giving **feedback** for your actions. For example, if there are no files in the folder, then `ls` will simply show nothing, potentially looking like it "didn't work". Or when typing a **password**, the letters you type won't show (not even as `*`) as a security measure. 
+
+    Just because you don't see any results from your command/typing, doesn't mean it didn't work! Trust in yourself, and use basic commands like `ls` and `pwd` to confirm any changes if you're unsure. Take it slow, one step at a time.
+
+
+### Paths
+Note that both the **`cd`** and **`ls`** commands work even for folders that are not "immediately inside" the current directory! We can refer to _any_ file or folder on the computer by specifying its **path**. A file's path is "how you get to that file": the list of folders we'd need to click through to get to the file, with each folder separated by a `/`:
+
+```
+/Users/iguest/Desktop/myfile.txt
 ```
 
-Also, you can always hit **tab to auto-complete**, which will save lots of time!
+This says to start at the root directory (that initial `/`), then go to `Users`, then go to `iguest`, then to `Desktop`, and finally to the `myfile.txt` file.
 
-### File Management
-Once you are inside of a directory, it's useful to be able to interact with files. Here is a sample of common tasks you may want to perform, though there are [many more](http://www.lagmonster.org/docs/unix/intro-137.html).
+Because this path starts with the root directory, it is referred to as an **absolute path**. No matter what folder you currently happen to be in, that path will refer to the correct file because it always starts on its journey from the root.
 
-| Action | Syntax	|
-| ------------- |  ------------- |
-| List contents (files, folders) in a directory	| `ls`	|
-| Copy a file	| `cp OLD_FILE NEW_FILE`	|
-| Move a file	| `mv OLD_FILE NEW_FILE`	|
-| Delete a file	(careful!)| `rm FILE_NAME`	|
-| Create a new file ([windows alternative](http://superuser.com/questions/502374/equivalent-of-linux-touch-to-create-an-empty-file-with-powershell))	| `touch FILE_NAME`	|
-| Open a file	| `open FILENAME` (windows: `start FILENAME`)	|
-| View text of a file | `less FILE_NAME`	|
-| See previous commands executed | `history` (also hit up arrow)	|
-| View Manual information for a command | `man COMMAND`	|
+Contrast that with:
 
-Don't hesitate to experiment with these commands, though I suggest making files to experiment moving/deleting/etc. Google is obviously a great resource, as is the `man` command for reading the manual (though that can be a bit dense). To practice using basic command-line syntax, see [exercise-1](exercise-1).
+```
+iguest/Desktop/myfile.txt
+```
+
+Because this path doesn't have the leading slash, it just says to "go to the Desktop folder _from the current location_". Thus it is known as a **relative path**: it gives you directions to a file _relative to the current folder_. Thus the relative path `iguest/Desktop/myfile.txt` path will only refer to the correct file if we happen to be in the `/Users` folder; if we start somewhere else, who knows where we'll end up!
+
+- You should almost **always** use relative paths, particularly when programming! That way file directions are more likely to work across computers (e.g., in case the username is different making your home folder `janesmith` instead of `iguest`; with a relative path, `Desktop/myfile.txt` will work for either person).
+
+Finally, we can refer to the "current folder" by using a single dot **`.`**. So the command
+
+```apache
+ls .
+```
+
+means "list the contents of the current folder" (the same thing we get if we left off the argument).
+
+If you want to go _up_ a directory, we use _two_ dots: **`..`** to refer to the _parent_ folder (that is, the one that contains this one). So the command
+
+```apache
+ls ..
+```
+
+means "list the contents of the folder that contains the current folder".
+
+Note that **`.`** and **`..`** act just like folder names, so you can include them anywhere in paths: `../../my_folder` says to go up two folders, and then into `my_folder`.
+
+- **Super Protip** Most command shells like Terminal and Git Bash support **tab-completion**. If you type out just the first few letters of a file or folder name and then hit the `tab` key, it will automatically fill in the rest of the name! If the name is ambiguous (e.g., you type `Do` and there is both a `Documents` and a `Downloads` folder, you can hit `tab` _twice_ to see the list of matching folders. Then add enough letters to distinguish them and tab to complete! This will make your life better.
+
+- Also remember that you can use a tilde **`~`** as shorthand for the home directory of the current user. Just like `.` refers to "current folder", `~` refers to the user's home directory (usually  `/Users/USERNAME`). And of course, you can use the tilde as part of a path as well.
+
+
+## File Commands
+![Matrix meme](img/matrix-cli.jpg)
+
+Once you're comfortable navigating folders in the command-line, you can start to use it to do all the same things you would do with Finder or File Explorer, simply by using the correct command:
+
+| Command | Behavior	|
+| ------- |  --------- |
+| **`mkdir`** | **m**a**k**e a **dir**ectory |
+| **`rm`** | **r**e**m**ove a file or folder |
+| **`cp`** | **c**o**p**y a file from one location to another |
+| **`open`** | opens a file or folder |
+| **`cat`** | con**cat**enate (combine) file contents and display the results |
+| **`history`** | show previous commands executed |
+
+Be aware that many of these commands **won't print anything** when you run them. This often means that they worked; they just did so quietly. If it _doesn't_ work, you'll know because you'll see a message telling you so (and why, if you read the message). So just you didn't get any output doesn't mean you did something wrong--you can use another command (such as **`ls`**) to confirm that the files or folders changed the way you wanted!
+
+### Learning New Commands
+How can we figure out what kind of arguments these commands take? We can look it up! This information is available online, but many command shells (though not Git Bash) also include their own manual we can use to look up commands!
+
+```apache
+man mkdir
+```
+
+Will show the **man**ual for the **`mkdir`** program/command.
+
+- Because manuals are often long, they are opened up in a command-line viewer called [`less`](https://en.wikipedia.org/wiki/Less_(Unix)). You can "scroll" up and down by using the arrow keys. Hit the `q` key to **q**uit and return to the command-prompt.
+
+![man mkdir](img/mkdir.png)
+
+If you look under "Synopsis" you can see a summary of all the different arguments this command understands. A few notes about reading this syntax:
+
+- Recall that anything in brackets `[]` is optional. Arguments that are not in brackets (e.g., `directory_name`) are required. 
+
+- **"Options"** (or "flags") for command-line programs are often marked with a leading dash **`-`** to make them distinct from file or folder names. Options may change the way a CLI program behaves---like how you might set "easy" or "hard" mode in a game. You can either write out each option individually, or combine them: **`mkdir -p -v`** and **`mkdir -pv`** are equivalent.
+
+    - Some options may require an additional argument beyond just indicating a particular operation style. In this case, you can see that the `-m` option requires you to specify an additional `mode` parameter; see the details below for what this looks like.
+
+- Underlined arguments are ones you choose: you don't actually type the word `directory_name`, but instead your own directory name! Contrast this with the options: if you want to use the `-p` option, you need to type `-p`.
+
+Command-line manuals ("man pages") are often very difficult to read and understand: start by looking at just the required arguments (which are usually straightforward), and then search for and use a particular option if you're looking to change a command's behavior.
+
+For practice, can you read the man page and figure out how to delete a folder and not just a single file? Note that you'll want to be careful, as this is a good way to [break things](http://www.pcworld.com/article/3057235/data-center-cloud/that-man-who-deleted-his-entire-company-with-a-line-of-code-it-was-a-hoax.html).
+
+### Dealing With Errors
+Note that the syntax of these commands (how you write them out) is very important. Computers aren't good at figuring out what you meant if you aren't really specific; you can't forget spaces or anything.
+
+Try another command: **`echo`** lets you "echo" (print out) some text. Try echoing `"Hello World"` (which is the traditional first computer program):
+
+```apache
+echo "Hello world"
+```
+
+But what happens if you forget the closing quote? You keep hitting "enter" but you just get that `>` over and over again! What's going on?
+
+- This is because you didn't close the quote, so the shell thinks you are still typing the message you want to echo! When you hit "enter" it adds a line break instead of ending the command, and the `>` marks that you're still going. If you finally close the quote, you'll see  your multi-line message printed!
+
+**IMPORTANT TIP** If you ever get stuck in the command-line, hit **`ctrl-c`** (The `control` and `c` keys together). This almost always means "cancel", and will "stop" whatever program/command is currently running in the shell so that you can try again. Just remember: "**`ctrl-c`** to flee".
+
+- If that doesn't work, try hitting the `esc` key, or typing `exit`, `q`, or `quit`. That should cover most cases.
+
+
+## Conclusion
+Don't hesitate to experiment with any of these commands, though I suggest making files to experiment with moving, deleting, editing, etc. To practice using basic command-line syntax, see [exercise-1](exercise-1).
