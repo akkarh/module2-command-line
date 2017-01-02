@@ -153,7 +153,8 @@ Once you're comfortable navigating folders in the command-line, you can start to
 | **`mkdir`** | **m**a**k**e a **dir**ectory |
 | **`rm`** | **r**e**m**ove a file or folder |
 | **`cp`** | **c**o**p**y a file from one location to another |
-| **`open`** | opens a file or folder |
+| **`open`** | Mac: opens a file or folder |
+| **`start`** | Windows: opens a file or folder |
 | **`cat`** | con**cat**enate (combine) file contents and display the results |
 | **`history`** | show previous commands executed |
 
